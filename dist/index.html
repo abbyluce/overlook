@@ -7,8 +7,99 @@
   <title>Webpack Starter Kit</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
+  <nav>
+    <h1 class="main-title">OVERLOOK HOTEL</h1>
+    <button class="button" id="backToDashboardButton">BACK TO DASHBOARD</button>
+    <button class="button" id="changeDate">CHANGE DATE</button>
+    <button class="button" id="bookRoomButton">BOOK A ROOM</button>
+  </nav>
+  <section class="login-page">
+    <form class="login-form" id="form">
+      <h2>WELCOME! PLEASE LOGIN</h2>
+          <label for="username">Username:</label>
+          <input id="username" class="username-login-form" type="text"/><br>
+          <label for="password">Password:</label>
+          <input id="password" class="password-login-form" type="text"/><br>
+          <button class="button" id="loginButton">LOGIN</button>
+    </form>
+  </section>
+  <section class="customer-dashboard-page hidden">
+    <h2>CUSTOMER DASHBOARD</h2>
+    <container class="room-bookings-container">
+      <h3>ROOM BOOKINGS</h3>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+    </container>
+    <container class="dashboard-sidebar">
+      <section class="amount-spent-container">
+        <h4 class="total-spent-title">TOTAL AMOUNT SPENT</h4>
+        <p>$4,200</p>
+      </section>
+    </container>
+  </section>
+  <section class="book-a-room-page hidden">
+    <h2>BOOK A ROOM</h2>
+    <container class="select-date-container">
+      <h3>REQUEST A DATE</h3>
+      <input type="search" id="dateSearch" placeholder="MM-DD-YYYY">
+          <button class="button" id="dateSearchButton">SEARCH</button>
+    </container>
+    <p>Error Message</p>
+  </section>
+  <section class="available-rooms-page hidden">
+    <h2>AVAILABLE ROOMS</h2>
+    <container class="available-room-container">
+      <aside class="filter-rooms">
+        <h3>FILTER ROOMS</h3>
+        <input class="checkbox" type="checkbox" id="">
+        <label for="">Tag</label><br>
+      </aside>
+      <container class="available-rooms-container">
+        <section class="room-booking">
+          <h4 class="room-title">Room Type</h4>
+          <p class="room-details">Room Details</p>
+        </section>
+      </container>
+    </container>
+  </section>
+  <section class="manager-dashboard-page hidden">
+    <h2>MANAGER DASHBOARD</h2>
+    <container class="todays-bookings-container">
+      <h3>TODAY'S BOOKINGS</h3>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+    </container>
+    <container class="dashboard-sidebar">
+      <h3>SEARCH FOR A USER</h3>
+      <input type="search" id="userSearch" placeholder="User Name">
+          <button class="button" id="userSearchButton">SEARCH</button>
+      <section class="occupancy-rate-container">
+        <h4>TODAY'S OCCUPANCY RATE</h4>
+        <p>66%</p>
+      </section>
+      <section class="total-revenue-container">
+        <h4>TODAY'S TOTAL REVENUE</h4>
+        <p>$4,244</p>
+      </section>
+    </container>
+  </section>
+  <section class="manager-view-user-page hidden">
+    <container class="users-bookings-container">
+      <h3>USER'S BOOKINGS</h3>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+    </container>
+    <section class="user-amount-spent">
+      <h4>TOTAL AMOUNT SPENT</h4>
+      <p>$6,300</p>
+    </section>
+  </section>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 
