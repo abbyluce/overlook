@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova&family=Work+Sans:wght@200&display=swap" rel="stylesheet">
+
   <title>Webpack Starter Kit</title>
 </head>
 <body>
@@ -16,34 +20,50 @@
   <section class="login-page">
     <form class="login-form" id="form">
       <h2>WELCOME! PLEASE LOGIN</h2>
-          <label for="username">Username:</label>
+          <label for="username">Username:</label><br>
           <input id="username" class="username-login-form" type="text"/><br>
-          <label for="password">Password:</label>
+          <label for="password">Password:</label><br>
           <input id="password" class="password-login-form" type="text"/><br>
           <button class="button" id="loginButton">LOGIN</button>
     </form>
   </section>
   <section class="customer-dashboard-page hidden">
     <h2>CUSTOMER DASHBOARD</h2>
-    <container class="room-bookings-container">
+    <section class="dashboard-body">
       <h3>ROOM BOOKINGS</h3>
+    <container class="room-bookings-container">
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
+      <section class="room-booking">
+        <h4 class="room-title">Room Type</h4>
+        <p class="room-details">Room Details</p>
+      </section>
       <section class="room-booking">
         <h4 class="room-title">Room Type</h4>
         <p class="room-details">Room Details</p>
       </section>
     </container>
-    <container class="dashboard-sidebar">
       <section class="amount-spent-container">
         <h4 class="total-spent-title">TOTAL AMOUNT SPENT</h4>
         <p>$4,200</p>
       </section>
-    </container>
+  </section>
   </section>
   <section class="book-a-room-page hidden">
     <h2>BOOK A ROOM</h2>
     <container class="select-date-container">
       <h3>REQUEST A DATE</h3>
-      <input type="search" id="dateSearch" placeholder="MM-DD-YYYY">
+      <input type="search" id="dateSearch" placeholder="MM-DD-YYYY"><br>
           <button class="button" id="dateSearchButton">SEARCH</button>
     </container>
     <p>Error Message</p>
@@ -54,9 +74,25 @@
       <aside class="filter-rooms">
         <h3>FILTER ROOMS</h3>
         <input class="checkbox" type="checkbox" id="">
-        <label for="">Tag</label><br>
+        <label for="">Tag</label>
+        <input class="checkbox" type="checkbox" id="">
+        <label for="">Tag</label>
+        <input class="checkbox" type="checkbox" id="">
+        <label for="">Tag</label>
       </aside>
       <container class="available-rooms-container">
+        <section class="room-booking">
+          <h4 class="room-title">Room Type</h4>
+          <p class="room-details">Room Details</p>
+        </section>
+        <section class="room-booking">
+          <h4 class="room-title">Room Type</h4>
+          <p class="room-details">Room Details</p>
+        </section>
+        <section class="room-booking">
+          <h4 class="room-title">Room Type</h4>
+          <p class="room-details">Room Details</p>
+        </section>
         <section class="room-booking">
           <h4 class="room-title">Room Type</h4>
           <p class="room-details">Room Details</p>
@@ -66,8 +102,8 @@
   </section>
   <section class="manager-dashboard-page hidden">
     <h2>MANAGER DASHBOARD</h2>
+    <h3>TODAY'S BOOKINGS</h3>
     <container class="todays-bookings-container">
-      <h3>TODAY'S BOOKINGS</h3>
       <section class="room-booking">
         <h4 class="room-title">Room Type</h4>
         <p class="room-details">Room Details</p>
@@ -75,7 +111,7 @@
     </container>
     <container class="dashboard-sidebar">
       <h3>SEARCH FOR A USER</h3>
-      <input type="search" id="userSearch" placeholder="User Name">
+      <input type="search" id="userSearch" placeholder="User Name"><br>
           <button class="button" id="userSearchButton">SEARCH</button>
       <section class="occupancy-rate-container">
         <h4>TODAY'S OCCUPANCY RATE</h4>
@@ -88,8 +124,8 @@
     </container>
   </section>
   <section class="manager-view-user-page hidden">
+    <h3>USER'S BOOKINGS</h3>
     <container class="users-bookings-container">
-      <h3>USER'S BOOKINGS</h3>
       <section class="room-booking">
         <h4 class="room-title">Room Type</h4>
         <p class="room-details">Room Details</p>

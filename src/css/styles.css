@@ -1,3 +1,118 @@
 body {
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+  background-image: url("../images/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  font-family: 'Ibarra Real Nova', serif;
+  font-size: 3vh;
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 10vh;
+  color: white;
+  margin: 3vh 0vw 3vh 3vw;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+h2 {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 5vh;
+  color: white;
+  margin-bottom: 1vh;
+  margin-top: 2vh;
+  padding-top: 2vh;
+}
+
+
+.login-form {
+  background: rgba(0, 0, 0, .6);
+  margin: 10vh 12vw 0vh 12vw;
+  padding-top: 3vh;
+  padding-bottom: 7vh;
+}
+
+#username, #password, #dateSearch, #userSearch {
+  width: 15vw;
+  height: 3vh;
+  border: none;
+  margin-bottom: 2vh;
+  border-radius: 6px;
+}
+
+.button {
+  display: inline-block;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0 56px;
+  height: 40px;
+  border-radius: 7px;
+  font-size: 16px;
+  background: #fff;
+  color: #696969;
+  box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+  transition: background 0.2s ease;
+}
+
+.button:hover{
+  background: rgba(255,255,255,0.7);
+  box-shadow: 0 6px 20px rgb(93 93 93 / 50%);
+}
+
+.customer-dashboard-page,
+.book-a-room-page,
+.available-rooms-page,
+.manager-dashboard-page,
+.manager-view-user-page {
+background: rgba(0, 0, 0, .6);
+}
+
+.dashboard-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.room-booking {
+  background-color: white;
+  color: black;
+  padding: 10vh;
+}
+
+.room-bookings-container,
+.available-rooms-container,
+.todays-bookings-container,
+.users-bookings-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 7px 7px;
+  margin: 2vh 4vw 2vh 4vw;
+}
+
+.checkbox {
+  border: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.filter-rooms {
+  margin-bottom: 5vh;
+}
+
+.hidden {
+  display: none;
 }
