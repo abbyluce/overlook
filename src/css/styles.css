@@ -11,12 +11,11 @@ body {
 
 h1 {
   font-family: 'Work Sans', sans-serif;
-  font-size: 10vh;
+  font-size: 9vh;
   color: white;
-  margin: 3vh 0vw 3vh 3vw;
+  margin: 3vh 0vw 4vh 3vw;
   text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-             0px 8px 13px rgba(0,0,0,0.1),
-             0px 18px 23px rgba(0,0,0,0.1);
+             0px 8px 13px rgba(0,0,0,0.1);
   text-align: left;
 }
 
@@ -36,9 +35,14 @@ h2 {
 }
 
 
-.login-form {
+.login-form,
+.customer-dashboard-page,
+.book-a-room-page,
+.available-rooms-page,
+.manager-dashboard-page,
+.manager-view-user-page {
   background: rgba(0, 0, 0, .6);
-  margin: 10vh 12vw 0vh 12vw;
+  margin: 10vh 10vw 0vh 10vw;
   padding-top: 3vh;
   padding-bottom: 7vh;
 }
@@ -71,14 +75,6 @@ h2 {
   box-shadow: 0 6px 20px rgb(93 93 93 / 50%);
 }
 
-.customer-dashboard-page,
-.book-a-room-page,
-.available-rooms-page,
-.manager-dashboard-page,
-.manager-view-user-page {
-background: rgba(0, 0, 0, .6);
-}
-
 .dashboard-body {
   display: flex;
   align-items: center;
@@ -104,9 +100,14 @@ background: rgba(0, 0, 0, .6);
 
 .checkbox {
   border: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  margin-left: 3vw;
+}
+
+label {
+  font-size: 15px;
 }
 
 .filter-rooms {

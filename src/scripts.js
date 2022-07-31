@@ -1,23 +1,26 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
+import Customer from './classes/customer.js'
+import Booking from './classes/booking.js'
+import Room from './classes/room.js'
 
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+let roomData
+let customer
+let room
+let bookingsData
+let newBooking
 
 const backToDashboardButton = document.querySelector('#backToDashboardButton')
 const changeDateButton = document.querySelector('#changeDate')
 const bookRoomButton = document.querySelector('#bookRoomButton')
 const loginButton = document.querySelector('#loginButton')
+const dateSearchForm = document.querySelector('#dateSearch')
 const dateSearchButton = document.querySelector('#dateSearchButton')
 const customerDashboardPage = document.querySelector('.customer-dashboard-page')
 const loginPage = document.querySelector('.login-page')
 const bookARoomPage = document.querySelector('.book-a-room-page')
 const availableRoomsPage = document.querySelector('.available-rooms-page')
-const managerDashboardPage = document.querySelector('.manager-dashboard-page')
-const managerViewUserPage = document.querySelector('.manager-view-user-page')
+const filterRoomTagsContainer = document.querySelector('.filter-rooms')
+const availableRoomsContainer = document.querySelector('.available-rooms-container')
 
 loginButton.addEventListener('click', showDashboardPage)
 bookRoomButton.addEventListener('click', showBookARoomPage)
@@ -26,13 +29,36 @@ backToDashboardButton.addEventListener('click', showDashboardPage)
 changeDateButton.addEventListener('click', showBookARoomPage)
 
 window.addEventListener('load', function() {
+  fetchRoomData()
+  fetchBookingsData()
+  newBooking = new Booking(bookingsData, roomData)
+  console.log(newBooking)
   hide(backToDashboardButton)
   hide(changeDateButton)
   hide(bookRoomButton)
 })
 
+function fetchRoomData() {
+  fetch("http://localhost:3001/api/v1/rooms")
+  .then(response => response.json())
+  .then(data => {
+  roomData = data.rooms
+  console.log(roomData)
+  })
+}
+
+function fetchBookingsData() {
+  fetch("http://localhost:3001/api/v1/bookings")
+  .then(response => response.json())
+  .then(data => {
+  bookingsData = data.bookings
+  console.log(bookingsData)
+  })
+}
+
+
+
 function showDashboardPage(event) {
-  //conditional here to show either customer or manager dashboard
   event.preventDefault()
   hide(backToDashboardButton)
   hide(changeDateButton)
@@ -41,8 +67,6 @@ function showDashboardPage(event) {
   hide(loginPage)
   hide(bookARoomPage)
   hide(availableRoomsPage)
-  hide(managerDashboardPage)
-  hide(managerViewUserPage)
 }
 
 function showBookARoomPage() {
@@ -53,8 +77,6 @@ function showBookARoomPage() {
   hide(loginPage)
   show(bookARoomPage)
   hide(availableRoomsPage)
-  hide(managerDashboardPage)
-  hide(managerViewUserPage)
 }
 
 function showAvailableRoomsPage() {
@@ -65,8 +87,33 @@ function showAvailableRoomsPage() {
   hide(loginPage)
   hide(bookARoomPage)
   show(availableRoomsPage)
-  hide(managerDashboardPage)
-  hide(managerViewUserPage)
+  createRoomTags()
+  populateAvailableRooms()
+}
+
+function populateExistingBookings() {
+
+}
+
+function populateAvailableRooms() {
+  availableRoomsContainer.innerHTML = ''
+  console.log(newBooking)
+  newBooking.availableRoomsByDate(dateSearchForm.value).forEach(room => {
+    availableRoomsContainer.innerHTML +=
+    `<section class="room-number-${room.number}">
+      <h4 class="room-title">Room Number: ${room.number} Cost Per Night: $${room.costPerNight}</h4>
+      <p class="room-${room.number}-details">Room Type: ${room.roomType} Bed Size: ${room.bedSize} Number Of Beds: ${room.numBeds}</p>
+    </section>`
+  })
+}
+
+function createRoomTags() {
+  const tags = roomData.map(room => room.roomType).flat()
+  const uniqueTags = tags.filter((room, index) => tags.indexOf(room) === index)
+  filterRoomTagsContainer.innerHTML = ''
+  uniqueTags.forEach(tag => {
+    filterRoomTagsContainer.innerHTML += `<input class="checkbox" type="checkbox" id="${tag}"><label for="${tag}">${tag.toUpperCase()}</label>`
+  })
 }
 
 function show(element) {
