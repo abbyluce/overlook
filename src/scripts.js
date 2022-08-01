@@ -31,8 +31,6 @@ changeDateButton.addEventListener('click', showBookARoomPage)
 window.addEventListener('load', function() {
   fetchRoomData()
   fetchBookingsData()
-  newBooking = new Booking(bookingsData, roomData)
-  console.log(newBooking)
   hide(backToDashboardButton)
   hide(changeDateButton)
   hide(bookRoomButton)
@@ -60,6 +58,8 @@ function fetchBookingsData() {
 
 function showDashboardPage(event) {
   event.preventDefault()
+  newBooking = new Booking(bookingsData, roomData)
+  customer = new Customer(bookingsData, roomData)
   hide(backToDashboardButton)
   hide(changeDateButton)
   show(bookRoomButton)
@@ -96,13 +96,14 @@ function populateExistingBookings() {
 }
 
 function populateAvailableRooms() {
+  // h2.innerText = `AVAILABLE ROOMS ON ${dateSearchForm.value}`
   availableRoomsContainer.innerHTML = ''
-  console.log(newBooking)
+  console.log(newBooking.availableRoomsByDate(dateSearchForm.value))
   newBooking.availableRoomsByDate(dateSearchForm.value).forEach(room => {
     availableRoomsContainer.innerHTML +=
-    `<section class="room-number-${room.number}">
-      <h4 class="room-title">Room Number: ${room.number} Cost Per Night: $${room.costPerNight}</h4>
-      <p class="room-${room.number}-details">Room Type: ${room.roomType} Bed Size: ${room.bedSize} Number Of Beds: ${room.numBeds}</p>
+    `<section class="room-booking">
+      <h4 class="room-title">Room Number: ${room.number} <br> Cost Per Night: $${room.costPerNight}</h4>
+      <p class="room-${room.number}-details">Room Type: ${room.roomType} <br> Bed Size: ${room.bedSize} <br> Number Of Beds: ${room.numBeds}</p>
     </section>`
   })
 }

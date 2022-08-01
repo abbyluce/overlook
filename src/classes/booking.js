@@ -4,19 +4,33 @@ class Booking {
     this.roomData = roomData
   }
 
-  availableRoomsByDate(requestedDate) {
-    let availableRooms = []
-    const availBookings = this.bookingsData.filter(booking => requestedDate !== booking.date)
-    this.roomData.forEach(room => {
-      availBookings.forEach(booking => {
-        if (room.number === booking.roomNumber) {
-          availableRooms.push(room)
-        }
-      })
-    })
-    return availableRooms
+  getRoomInfo(bookings) {
+    return this.roomData.reduce((list, room) => {
+            bookings.forEach(booking => {
+                if (booking.roomNumber === room.number) {
+                        list.push(room)
+                }
+            })
+            return list
+        }, [])
   }
 
+
+  availableRoomsByDate(requestedDate) {
+    const bookingDateMatches = this.bookingsData.filter(booking => requestedDate === booking.date)
+    let bookedRoomMatches = this.getRoomInfo(bookingDateMatches)
+    return this.roomData.filter(room => {
+      return !bookedRoomMatches.some(bookedRoom => {
+        return room.number === bookedRoom.number
+      })
+    })
+  }
+
+
+
+    //take room data. subtract room objects where the numbers line up with the bookDateMatch room numbers
+    //OR build new array of all room data but do not include room numbers that match with bookings
 }
+
 
 export default Booking
