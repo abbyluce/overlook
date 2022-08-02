@@ -2,15 +2,16 @@ body {
   background-image: url("../images/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   height: 100%;
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Work Sans', sans-serif;
   font-size: 3vh;
   text-align: center;
   color: white;
 }
 
+
 h1 {
-  font-family: 'Work Sans', sans-serif;
   font-size: 9vh;
   color: white;
   margin: 3vh 0vw 4vh 3vw;
@@ -26,7 +27,6 @@ nav {
 }
 
 h2 {
-  font-family: 'Work Sans', sans-serif;
   font-size: 5vh;
   color: white;
   margin-bottom: 1vh;
@@ -34,25 +34,39 @@ h2 {
   padding-top: 2vh;
 }
 
+h4 {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  font-size: 3vh;
+}
 
-.login-form,
+.login-form{
+  background: rgba(0, 0, 0, .6);
+  margin: 10vh 12vw 0vh 12vw;
+  padding-top: 3vh;
+  padding-bottom: 7vh;
+}
 .customer-dashboard-page,
 .book-a-room-page,
 .available-rooms-page,
 .manager-dashboard-page,
 .manager-view-user-page {
   background: rgba(0, 0, 0, .6);
-  margin: 10vh 10vw 0vh 10vw;
+  margin: 10vh 4vw 0vh 4vw;
   padding-top: 3vh;
   padding-bottom: 7vh;
 }
 
 #username, #password, #dateSearch, #userSearch {
-  width: 15vw;
-  height: 3vh;
+  width: 20vw;
+  height: 5vh;
   border: none;
   margin-bottom: 2vh;
   border-radius: 6px;
+}
+
+#errorMessagePlaceholder, #errorDatePlaceholder {
+  color: #faba50;
 }
 
 .button {
@@ -83,7 +97,7 @@ h2 {
 }
 
 .room-booking {
-  background-color: white;
+  background-color: #dad8d5e3;
   color: black;
   padding: 1vh;
 }
@@ -93,7 +107,7 @@ h2 {
 .todays-bookings-container,
 .users-bookings-container {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
   gap: 7px 7px;
   margin: 2vh 4vw 2vh 4vw;
 }
@@ -112,6 +126,11 @@ label {
 
 .filter-rooms {
   margin-bottom: 5vh;
+}
+
+.room-photo {
+  width: 95%;
+  margin-top: 2vh;
 }
 
 .hidden {

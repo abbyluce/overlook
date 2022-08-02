@@ -12,15 +12,22 @@ let newBooking
 const backToDashboardButton = document.querySelector('#backToDashboardButton')
 const changeDateButton = document.querySelector('#changeDate')
 const bookRoomButton = document.querySelector('#bookRoomButton')
+const username = document.querySelector('#username')
+const password = document.querySelector('#password')
+const errorMessage = document.querySelector('#errorMessagePlaceholder')
+const errorDatePlaceholder = document.querySelector('#errorDatePlaceholder')
 const loginButton = document.querySelector('#loginButton')
 const dateSearchForm = document.querySelector('#dateSearch')
 const dateSearchButton = document.querySelector('#dateSearchButton')
 const customerDashboardPage = document.querySelector('.customer-dashboard-page')
 const loginPage = document.querySelector('.login-page')
+const roomBookingsContainer = document.querySelector('.room-bookings-container')
 const bookARoomPage = document.querySelector('.book-a-room-page')
 const availableRoomsPage = document.querySelector('.available-rooms-page')
+const availRoomsTitle = document.querySelector('#availRoomsTitle')
 const filterRoomTagsContainer = document.querySelector('.filter-rooms')
 const availableRoomsContainer = document.querySelector('.available-rooms-container')
+const totalDollars = document.querySelector('.total-dollars')
 
 loginButton.addEventListener('click', showDashboardPage)
 bookRoomButton.addEventListener('click', showBookARoomPage)
@@ -54,19 +61,26 @@ function fetchBookingsData() {
   })
 }
 
-
-
 function showDashboardPage(event) {
   event.preventDefault()
-  newBooking = new Booking(bookingsData, roomData)
-  customer = new Customer(bookingsData, roomData)
-  hide(backToDashboardButton)
-  hide(changeDateButton)
-  show(bookRoomButton)
-  show(customerDashboardPage)
-  hide(loginPage)
-  hide(bookARoomPage)
-  hide(availableRoomsPage)
+  if (username.value === "" || password.value === "") {
+    errorMessage.innerText = `Please complete the form!`
+  } else if (password.value !== "overlook2021"){
+    errorMessage.innerText = `Wrong password! Please try again.`
+  } else {
+    errorMessage.innerText = ""
+    newBooking = new Booking(bookingsData, roomData)
+    customer = new Customer(bookingsData, roomData)
+    hide(backToDashboardButton)
+    hide(changeDateButton)
+    show(bookRoomButton)
+    show(customerDashboardPage)
+    hide(loginPage)
+    hide(bookARoomPage)
+    hide(availableRoomsPage)
+    populateExistingBookings()
+    populateTotalCost()
+  }
 }
 
 function showBookARoomPage() {
@@ -80,6 +94,9 @@ function showBookARoomPage() {
 }
 
 function showAvailableRoomsPage() {
+  if (dateSearchForm.value === "") {
+    errorDatePlaceholder.innerText = `Please complete the form!`
+  } else {
   show(backToDashboardButton)
   show(changeDateButton)
   hide(bookRoomButton)
@@ -89,21 +106,63 @@ function showAvailableRoomsPage() {
   show(availableRoomsPage)
   createRoomTags()
   populateAvailableRooms()
+  }
 }
 
 function populateExistingBookings() {
+  roomBookingsContainer.innerHTML = ""
+  customer.findExistingBookings(parseInt(username.value)).forEach(room => {
+    let roomPhoto
+    if (room.roomType === "residential suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
+    }
+    if (room.roomType === "suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
+    }
+    if (room.roomType === "single room") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
+    }
+    if (room.roomType === "junior suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
+    }
+  roomBookingsContainer.innerHTML +=
+  `<section class="room-booking">
+    <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
+    <img src="${roomPhoto}" class="room-photo">
+    <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
+  </section>`
+  })
+}
 
+function populateTotalCost() {
+  totalDollars.innerHTML = ""
+  totalDollars.innerHTML = `${customer.findTotalCost(parseInt(username.value))}`
 }
 
 function populateAvailableRooms() {
-  // h2.innerText = `AVAILABLE ROOMS ON ${dateSearchForm.value}`
+  errorDatePlaceholder.innerText = ""
+  availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${dateSearchForm.value}`
   availableRoomsContainer.innerHTML = ''
-  console.log(newBooking.availableRoomsByDate(dateSearchForm.value))
   newBooking.availableRoomsByDate(dateSearchForm.value).forEach(room => {
+    let roomPhoto
+    if (room.roomType === "residential suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
+    }
+    if (room.roomType === "suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
+    }
+    if (room.roomType === "single room") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
+    }
+    if (room.roomType === "junior suite") {
+      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
+    }
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
-      <h4 class="room-title">Room Number: ${room.number} <br> Cost Per Night: $${room.costPerNight}</h4>
-      <p class="room-${room.number}-details">Room Type: ${room.roomType} <br> Bed Size: ${room.bedSize} <br> Number Of Beds: ${room.numBeds}</p>
+      <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
+      <button class="button" id="clickToBookButton">BOOK THIS ROOM</button>
+      <img src="${roomPhoto}" class="room-photo">
+      <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
     </section>`
   })
 }
