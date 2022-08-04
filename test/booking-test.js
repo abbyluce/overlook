@@ -2,124 +2,24 @@ import chai from 'chai';
 const expect = chai.expect;
 
 import Booking from '../src/classes/booking'
+import Room from '../src/classes/room'
+import Customer from '../src/classes/customer'
 
 describe('Booking', () => {
-  let bookingsData
-  let roomData
-  let booking
+  let room1
+  let room2
+  let customer1
+  let customer2
+  let bookingA
+  let bookingB
 
   beforeEach(() => {
-    bookingsData = [{
-      id: "5fwrgu4i7k55hl6sz",
-      userID: 1,
-      date: "2022/04/22",
-      roomNumber: 5
-    },
-    {
-      id: "5fwrgu4i7k55hl6t5",
-      userID: 43,
-      date: "2022/01/24",
-      roomNumber: 2
-    },
-    {
-      id: "5fwrgu4i7k55hl6t6",
-      userID: 1,
-      date: "2022/01/10",
-      roomNumber: 7
-    },
-    {
-    id: "5fwrgu4i7k55hl7ac",
-    userID: 10,
-    date: "2022/02/11",
-    roomNumber: 8
-    },
-    {
-    id: "5fwrgu4i7k55hl7ad",
-    userID: 39,
-    date: "2022/04/22",
-    roomNumber: 9
-    }]
-    roomData = [{
-      number: 1,
-      roomType: "residential suite",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 358.4
-      },
-      {
-      number: 2,
-      roomType: "suite",
-      bidet: false,
-      bedSize: "full",
-      numBeds: 2,
-      costPerNight: 477.38
-      },
-      {
-      number: 3,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "king",
-      numBeds: 1,
-      costPerNight: 491.14
-      },
-      {
-      number: 4,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 429.44
-      },
-      {
-      number: 5,
-      roomType: "single room",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 2,
-      costPerNight: 340.17
-      },
-      {
-      number: 6,
-      roomType: "junior suite",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 397.02
-      },
-      {
-      number: 7,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "queen",
-      numBeds: 2,
-      costPerNight: 231.46
-      },
-      {
-      number: 8,
-      roomType: "junior suite",
-      bidet: false,
-      bedSize: "king",
-      numBeds: 1,
-      costPerNight: 261.26
-      },
-      {
-      number: 9,
-      roomType: "single room",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 200.39
-      },
-      {
-      number: 10,
-      roomType: "suite",
-      bidet: false,
-      bedSize: "twin",
-      numBeds: 1,
-      costPerNight: 497.64
-      }]
-    booking = new Booking(bookingsData, roomData)
+    room1 = new Room(1, "residential suite", true, "queen", 1, 358.4)
+    room2 = new Room(2, "suite", false, "full", 2, 477.38)
+    customer1 = new Customer(1, "Abby")
+    customer2 = new Customer(2, "Will")
+    bookingA = new Booking(customer1, "2022/04/22", room1)
+    bookingB = new Booking(customer2, "2022/04/22", room2)
 
   })
 
@@ -127,175 +27,19 @@ describe('Booking', () => {
     expect(Booking).to.be.a('function');
   });
 
-  it('should find corresponding room details', () => {
-    expect(booking.getRoomInfo([{
-      id: "5fwrgu4i7k55hl6sz",
-      userID: 1,
-      date: "2022/04/22",
-      roomNumber: 5
-    },
-    {
-      id: "5fwrgu4i7k55hl6t5",
-      userID: 43,
-      date: "2022/01/24",
-      roomNumber: 2
-    }])).to.deep.equal([{
-    number: 2,
-    roomType: "suite",
-    bidet: false,
-    bedSize: "full",
-    numBeds: 2,
-    costPerNight: 477.38
-  },
-    {
-    number: 5,
-    roomType: "single room",
-    bidet: true,
-    bedSize: "queen",
-    numBeds: 2,
-    costPerNight: 340.17
-  }])
-})
+  it('Should have a customer ID', () => {
+    expect(bookingA.userID).to.equal(1)
+    expect(bookingB.userID).to.equal(2)
+  });
 
+  it('Should have a date', () => {
+    expect(bookingA.date).to.equal("2022/04/22")
+    expect(bookingB.date).to.equal("2022/04/22")
+  });
 
-  it('should find available rooms by date', () => {
-    expect(booking.availableRoomsByDate("2022/04/22")).to.deep.equal([{
-      number: 1,
-      roomType: "residential suite",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 358.4
-      },
-      {
-      number: 2,
-      roomType: "suite",
-      bidet: false,
-      bedSize: "full",
-      numBeds: 2,
-      costPerNight: 477.38
-      },
-      {
-      number: 3,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "king",
-      numBeds: 1,
-      costPerNight: 491.14
-      },
-      {
-      number: 4,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 429.44
-      },
-      {
-      number: 6,
-      roomType: "junior suite",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 397.02
-      },
-      {
-      number: 7,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "queen",
-      numBeds: 2,
-      costPerNight: 231.46
-      },
-      {
-      number: 8,
-      roomType: "junior suite",
-      bidet: false,
-      bedSize: "king",
-      numBeds: 1,
-      costPerNight: 261.26
-      },
-      {
-      number: 10,
-      roomType: "suite",
-      bidet: false,
-      bedSize: "twin",
-      numBeds: 1,
-      costPerNight: 497.64
-      }])
-
-    // expect(booking.availableRoomsByDate("2022/01/24")).to.deep.equal([{
-    //   number: 1,
-    //   roomType: "residential suite",
-    //   bidet: true,
-    //   bedSize: "queen",
-    //   numBeds: 1,
-    //   costPerNight: 358.4
-    //   },
-    //   {
-    //   number: 3,
-    //   roomType: "single room",
-    //   bidet: false,
-    //   bedSize: "king",
-    //   numBeds: 1,
-    //   costPerNight: 491.14
-    //   },
-    //   {
-    //   number: 4,
-    //   roomType: "single room",
-    //   bidet: false,
-    //   bedSize: "queen",
-    //   numBeds: 1,
-    //   costPerNight: 429.44
-    //   },
-    //   {
-    //   number: 5,
-    //   roomType: "single room",
-    //   bidet: true,
-    //   bedSize: "queen",
-    //   numBeds: 2,
-    //   costPerNight: 340.17
-    //   },
-    //   {
-    //   number: 6,
-    //   roomType: "junior suite",
-    //   bidet: true,
-    //   bedSize: "queen",
-    //   numBeds: 1,
-    //   costPerNight: 397.02
-    //   },
-    //   {
-    //   number: 7,
-    //   roomType: "single room",
-    //   bidet: false,
-    //   bedSize: "queen",
-    //   numBeds: 2,
-    //   costPerNight: 231.46
-    //   },
-    //   {
-    //   number: 8,
-    //   roomType: "junior suite",
-    //   bidet: false,
-    //   bedSize: "king",
-    //   numBeds: 1,
-    //   costPerNight: 261.26
-    //   },
-    //   {
-    //   number: 9,
-    //   roomType: "single room",
-    //   bidet: true,
-    //   bedSize: "queen",
-    //   numBeds: 1,
-    //   costPerNight: 200.39
-    //   },
-    //   {
-    //   number: 10,
-    //   roomType: "suite",
-    //   bidet: false,
-    //   bedSize: "twin",
-    //   numBeds: 1,
-    //   costPerNight: 497.64
-    //   }])
-  })
+  it('Should have a room number', () => {
+    expect(bookingA.roomNumber).to.equal(1)
+    expect(bookingB.roomNumber).to.equal(2)
+  });
 
 })

@@ -1,24 +1,24 @@
 class Customer {
-  constructor(bookingsData, roomData) {
-    this.bookingsData = bookingsData
-    this.roomData = roomData
+  constructor(id) {
+    this.id = id
+    this.name
   }
 
-  findExistingBookings(customerID) {
-    let existingRooms = []
-    const existingBookings = this.bookingsData.filter(booking => customerID === booking.userID)
-    this.roomData.forEach(room => {
-      existingBookings.forEach(booking => {
-        if (room.number === booking.roomNumber) {
-          existingRooms.push(room)
-        }
-      })
-    })
-    return existingRooms
+  getName(customersData) {
+    this.name = customersData.filter(customer => this.id === customer.id).map(customer => customer.name)
   }
 
-  findTotalCost(customerID) {
-    let totalCost = this.findExistingBookings(customerID).reduce((sum, room) => {
+  //from id get name, bookings etc.
+  //methods to get room numbers, dates, etc.
+
+
+
+  // addFutureBooking(booking) {
+  //     this.futureBookings.push(booking)
+  // }
+
+  findTotalCost(bookings) {
+    let totalCost = this.findExistingBookings(customerID, bookings).reduce((sum, room) => {
       sum += room.costPerNight
       return sum
     }, 0)

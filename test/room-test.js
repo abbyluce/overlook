@@ -4,38 +4,12 @@ const expect = chai.expect;
 import Room from '../src/classes/room'
 
 describe('Room', () => {
-  let roomData
   let roomA
   let roomB
 
   beforeEach(() => {
-    roomData = [{
-      number: 15,
-      roomType: "residential suite",
-      bidet: true,
-      bedSize: "queen",
-      numBeds: 1,
-      costPerNight: 358.4
-    },
-    {
-      number: 12,
-      roomType: "suite",
-      bidet: false,
-      bedSize: "full",
-      numBeds: 2,
-      costPerNight: 477.38
-    },
-    {
-      number: 3,
-      roomType: "single room",
-      bidet: false,
-      bedSize: "king",
-      numBeds: 1,
-      costPerNight: 491.14
-    }]
-    roomA = new Room(roomData[0])
-    roomB = new Room(roomData[1])
-
+    roomA = new Room(15, "residential suite", true, "queen", 1, 358.4)
+    roomB = new Room(12, "suite", false, "full", 2, 477.38)
   })
 
   it('Should be a function', () => {
@@ -70,6 +44,4 @@ describe('Room', () => {
     expect(roomA.costPerNight).to.equal(358.4)
     expect(roomB.costPerNight).to.equal(477.38)
   })
-
-
 })

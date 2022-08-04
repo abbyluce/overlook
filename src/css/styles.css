@@ -102,7 +102,8 @@ h4 {
   padding: 1vh;
 }
 
-.room-bookings-container,
+.existing-bookings-container,
+.future-bookings-container,
 .available-rooms-container,
 .todays-bookings-container,
 .users-bookings-container {
