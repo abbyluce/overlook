@@ -17,13 +17,6 @@ class Customer {
   //     this.futureBookings.push(booking)
   // }
 
-  findTotalCost(bookings) {
-    let totalCost = this.findExistingBookings(customerID, bookings).reduce((sum, room) => {
-      sum += room.costPerNight
-      return sum
-    }, 0)
-    return `$${(totalCost).toFixed(2)}`
-  }
 }
 
 export default Customer
