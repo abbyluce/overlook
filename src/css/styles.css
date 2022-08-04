@@ -40,6 +40,10 @@ h4 {
   font-size: 3vh;
 }
 
+.room-title {
+  font-weight: bolder;
+}
+
 .login-form{
   background: rgba(0, 0, 0, .6);
   margin: 10vh 12vw 0vh 12vw;

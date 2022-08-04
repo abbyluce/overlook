@@ -3,13 +3,15 @@ import { fetchData } from './apiCalls'
 import Customer from './classes/customer.js'
 import Booking from './classes/booking.js'
 import Room from './classes/room.js'
+import Hotel from './classes/hotel.js'
 
 let roomData
 let customersData
 let bookingsData
-let customer
+let booking
+let newCustomer
 let room
-let newBooking
+let overlook
 
 const backToDashboardButton = document.querySelector('#backToDashboardButton')
 const changeDateButton = document.querySelector('#changeDate')
@@ -22,9 +24,9 @@ const loginButton = document.querySelector('#loginButton')
 const dateSearchForm = document.querySelector('#dateSearch')
 const dateSearchButton = document.querySelector('#dateSearchButton')
 const customerDashboardPage = document.querySelector('.customer-dashboard-page')
+const dashboardTitle = document.querySelector('.dashboard-title')
 const loginPage = document.querySelector('.login-page')
 const existingBookingsContainer = document.querySelector('.existing-bookings-container')
-const futureBookingsContainer = document.querySelector('.future-bookings-container')
 const bookARoomPage = document.querySelector('.book-a-room-page')
 const availableRoomsPage = document.querySelector('.available-rooms-page')
 const availRoomsTitle = document.querySelector('#availRoomsTitle')
@@ -54,37 +56,10 @@ function getPromiseData() {
     roomData = data[0].rooms
     bookingsData = data[1].bookings
     customersData = data[2].customers
-    newBooking = new Booking(bookingsData, roomData)
-    console.log(newBooking, customer)
+    overlook = new Hotel(bookingsData, roomData, customersData)
+    console.log(overlook)
   })
 }
-//
-// function fetchRoomData() {
-//   fetch("http://localhost:3001/api/v1/rooms")
-//   .then(response => response.json())
-//   .then(data => {
-//     roomData = data.rooms
-//     })
-//   })
-// }
-//
-// function fetchBookingsData() {
-//   fetch("http://localhost:3001/api/v1/bookings")
-//   .then(response => response.json())
-//   .then(data => {
-//   bookingsData = data.bookings
-//   console.log(bookingsData)
-//   })
-// }
-//
-// function fetchCustomersData() {
-//   fetch("http://localhost:3001/api/v1/customers")
-//   .then(response => response.json())
-//   .then(data => {
-//   customersData = data.customers
-//   console.log(customersData)
-//   })
-// }
 
 function showDashboardPage(event) {
   event.preventDefault()
@@ -104,7 +79,7 @@ function showDashboardPage(event) {
     hide(bookARoomPage)
     hide(availableRoomsPage)
     populateExistingBookings()
-    populateTotalCost()
+    // populateTotalCost()
   }
 }
 
@@ -137,23 +112,36 @@ function showAvailableRoomsPage() {
 function populateExistingBookings() {
   existingBookingsContainer.innerHTML = ""
   //create customer instance here.
-  customer = new Customer(parseInt(username.value))
-  customer.getName(customersData)
-  customer.findExistingBookings(bookingsData).forEach(booking => {
-    // room.getRoomPhoto()
-
+  newCustomer = new Customer(parseInt(username.value))
+  newCustomer.getName(customersData)
+  dashboardTitle.innerText = `${newCustomer.name}'s Dashboard`
+  overlook.findExistingBookings(newCustomer).forEach(booking => {
+    let roomPhoto
+    if (booking.roomType === "residential suite") {
+        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
+      }
+      if (booking.roomType === "suite") {
+        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
+      }
+      if (booking.roomType === "single room") {
+        roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
+      }
+      if (booking.roomType === "junior suite") {
+        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
+      }
     existingBookingsContainer.innerHTML +=
     `<section class="room-booking">
-      <h4 class="room-title">BOOKING DATE: ${booking.date} <br> ROOM NUMBER: ${booking.roomNumber} <br> COST PER NIGHT: $${newBooking.getBookingCost()}</h4>
-      <img src="${''}" class="room-photo">
-      <p class="room-${booking.roomNumber}-details">ROOM TYPE: ${newBooking.getRoomType()} <br> BED SIZE: ${newBooking.getBedSize()} <br> NUMBER OF BEDS: ${newBooking.getNumBeds()}</p>
+      <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
+      <img src="${roomPhoto}" class="room-photo">
+      <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
+      <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
     </section>`
     })
 }
 
 function populateTotalCost() {
   totalDollars.innerHTML = ""
-  totalDollars.innerHTML = `${customer.findTotalCost(parseInt(username.value))}`
+  totalDollars.innerHTML = `${newCustomer.findTotalCost(parseInt(username.value))}`
 }
 
 function populateAvailableRooms() {
