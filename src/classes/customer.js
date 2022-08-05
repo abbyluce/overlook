@@ -5,18 +5,8 @@ class Customer {
   }
 
   getName(customersData) {
-    this.name = customersData.filter(customer => this.id === customer.id).map(customer => customer.name)
+    this.name = customersData.filter(customer => this.id === customer.id).map(customer => customer.name)[0]
   }
-
-  //from id get name, bookings etc.
-  //methods to get room numbers, dates, etc.
-
-
-
-  // addFutureBooking(booking) {
-  //     this.futureBookings.push(booking)
-  // }
-
 }
 
 export default Customer

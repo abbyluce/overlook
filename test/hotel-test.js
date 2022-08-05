@@ -40,9 +40,9 @@ describe('Hotel', () => {
     room9 = new Room(9, "single room", true, "queen", 1, 200.39)
     room10 = new Room(10, "suite", false, "twin", 1, 497.64)
     roomData = [room1, room2, room3, room4, room5, room6, room7, room8, room9, room10]
-    customer1 = new Customer(1, "Abby")
-    customer2 = new Customer(2, "Will")
-    customer3 = new Customer(3, "Mason")
+    customer1 = new Customer(1)
+    customer2 = new Customer(2)
+    customer3 = new Customer(3)
     customersData = [customer1, customer2, customer3]
     bookingA = new Booking(customer1, "2022/04/22", room5)
     bookingB = new Booking(customer2, "2022/04/22", room2)
@@ -64,7 +64,7 @@ describe('Hotel', () => {
   });
 
   it('Should have customers', () => {
-    expect(hotel.customersData).to.deep.equal([customer1, customer2])
+    expect(hotel.customersData).to.deep.equal([customer1, customer2, customer3])
   });
 
   it('Should find existing customer bookings', () => {
@@ -77,7 +77,28 @@ describe('Hotel', () => {
   })
 
   it('should find available rooms by date', () => {
-    expect(hotel.availableRoomsByDate("2022/04/22")).to.deep.equal([room1, room3, room4, room6, room7, room8, room9, room10])
-    expect(hotel.availableRoomsByDate("2022/01/12")).to.deep.equal([room1, room2, room3, room4, room5, room6, room7, room8, room9, room10])
+    hotel.availableRoomsByDate("2022/04/22")
+    expect(hotel.availableRooms).to.deep.equal([room1, room3, room4, room6, room7, room8, room9, room10])
+    hotel.availableRoomsByDate("2022/01/12")
+    expect(hotel.availableRooms).to.deep.equal([room1, room2, room3, room4, room5, room6, room7, room8, room9, room10])
+  })
+
+  it('Should find customers total bookings cost', () => {
+    expect(hotel.findTotalCost(customer1)).to.deep.equal("$340.17")
+  })
+
+  it('should filter a list of rooms based on a tag', () => {
+    hotel.availableRoomsByDate("2022/04/22")
+    expect(hotel.filterByTags(["single room"], hotel.availableRooms)).to.deep.equal([room3, room4, room7, room9])
+  })
+
+  it('should filter a list of rooms based on multiple tags', () => {
+    hotel.availableRoomsByDate("2022/04/22")
+    expect(hotel.filterByTags(["single room", "residential suite"], hotel.availableRooms)).to.deep.equal([room1, room3, room4, room7, room9])
+  })
+
+  it('should not filter if there is no tag', () => {
+    hotel.availableRoomsByDate("2022/04/22")
+    expect(hotel.filterByTags("")).to.deep.equal([room1, room3, room4, room6, room7, room8, room9, room10])
   })
 })

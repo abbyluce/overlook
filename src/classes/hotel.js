@@ -3,6 +3,7 @@ class Hotel {
     this.bookingsData = bookingsData
     this.roomData = roomData
     this.customersData = customersData
+    this.availableRooms
   }
 
   findExistingBookings(customer) {
@@ -15,14 +16,13 @@ class Hotel {
       }
     })
   })
-    console.log(existingBookings)
-    return existingBookings
+    return existingBookings.sort((a,b) => b.date[3] - a.date[3])
 }
 
   availableRoomsByDate(requestedDate) {
     const bookingDateMatches = this.bookingsData.filter(booking => requestedDate === booking.date)
     let bookedRoomMatches = this.getRoomInfo(bookingDateMatches)
-    return this.roomData.filter(room => {
+    this.availableRooms = this.roomData.filter(room => {
       return !bookedRoomMatches.some(bookedRoom => {
         return room.number === bookedRoom.number
       })
@@ -40,12 +40,27 @@ class Hotel {
         }, [])
   }
 
-  findTotalCost(bookings) {
-    let totalCost = this.findExistingBookings(customerID, bookings).reduce((sum, room) => {
-      sum += room.costPerNight
+  findTotalCost(customer) {
+    let totalCost = this.findExistingBookings(customer).reduce((sum, booking) => {
+      sum += booking.cost
       return sum
     }, 0)
     return `$${(totalCost).toFixed(2)}`
+  }
+
+  filterByTags(tags, rooms) {
+    if (tags.length === 0) {
+      return this.availableRooms
+    }
+    const filteredRooms = []
+    this.availableRooms.forEach(room => {
+      tags.forEach(tag => {
+        if(room.roomType === tag && !filteredRooms.includes(room)) {
+          filteredRooms.push(room)
+        }
+      })
+    })
+    return filteredRooms
   }
 }
 
