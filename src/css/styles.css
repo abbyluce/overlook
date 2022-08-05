@@ -14,7 +14,7 @@ body {
 h1 {
   font-size: 9vh;
   color: white;
-  margin: 3vh 0vw 4vh 3vw;
+  margin: 3vh 0vw 4vh 1vw;
   text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
              0px 8px 13px rgba(0,0,0,0.1);
   text-align: left;
@@ -23,7 +23,7 @@ h1 {
 nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 h2 {
@@ -38,6 +38,7 @@ h4 {
   margin-top: 2vh;
   margin-bottom: 2vh;
   font-size: 3vh;
+  outline: 1px black;
 }
 
 .room-title {
@@ -70,10 +71,15 @@ h4 {
 }
 
 #errorMessagePlaceholder, #errorDatePlaceholder {
-  color: #faba50;
+  color: red;
+  font-weight: bolder;
+  font-size: 3vh;
+  background-color: white;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.8),
 }
 
 .button {
+  margin: 0vh 1vw 0vh 1vw;
   display: inline-block;
   outline: 0;
   cursor: pointer;
