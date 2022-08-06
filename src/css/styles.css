@@ -55,7 +55,8 @@ h4 {
 .book-a-room-page,
 .available-rooms-page,
 .manager-dashboard-page,
-.manager-view-user-page {
+.manager-view-user-page,
+.room-details-page {
   background: rgba(0, 0, 0, .6);
   margin: 10vh 4vw 0vh 4vw;
   padding-top: 3vh;
@@ -142,6 +143,16 @@ label {
 .room-photo {
   width: 95%;
   margin-top: 2vh;
+}
+
+.room-details-photo {
+  width: 60%;
+}
+
+.room-details-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .hidden {
