@@ -10,6 +10,7 @@ let customersData
 let bookingsData
 let booking
 let newCustomer
+let newBooking
 let newRoom
 let overlook
 
@@ -36,6 +37,13 @@ const availableRoomsContainer = document.querySelector('.available-rooms-contain
 const totalDollars = document.querySelector('.total-dollars')
 const roomDetailsPage = document.querySelector('.room-details-page')
 
+window.addEventListener('load', function() {
+  getPromiseData()
+  hide(backToDashboardButton)
+  hide(changeDateButton)
+  hide(bookRoomButton)
+  hide(logoutButton)
+})
 loginButton.addEventListener('click', showDashboardPage)
 bookRoomButton.addEventListener('click', showBookARoomPage)
 dateSearchButton.addEventListener('click', showAvailableRoomsPage)
@@ -49,16 +57,8 @@ availableRoomsPage.addEventListener('click', function(event) {
 availableRoomsContainer.addEventListener('click', function(event) {
   showRoomDetailsPage(event)
 })
-// showRoomDetailsPage.addEventListener('click', function(event) {
-//   confirmNewBooking(event)
-// })
-
-window.addEventListener('load', function() {
-  getPromiseData()
-  hide(backToDashboardButton)
-  hide(changeDateButton)
-  hide(bookRoomButton)
-  hide(logoutButton)
+roomDetailsPage.addEventListener('click', function(event) {
+  confirmNewBooking(event)
 })
 
 function getPromiseData() {
@@ -154,41 +154,6 @@ function showRoomDetailsPage(event) {
   }
 }
 
-// function confirmNewBooking(event) {
-//   if (event.target.id.contains('confirmBooking')) {
-//     roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
-//     BOOKING ADDED TO DASHBOARD`
-//   }
-// }
-
-function populateRoomDetails(event) {
-  const clickedRoom = roomData.filter(room => event.target.id === `${room.number}`)
-  newRoom = new Room(clickedRoom[0].number, clickedRoom[0].roomType, clickedRoom[0].bidet, clickedRoom[0].bedSize, clickedRoom[0].numBeds, clickedRoom[0].costPerNight)
-  roomDetailsPage.innerHTML = ''
-  let roomPhoto
-  if (newRoom.roomType === "residential suite") {
-      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
-    }
-    if (newRoom.roomType === "suite") {
-      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
-    }
-    if (newRoom.roomType === "single room") {
-      roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
-    }
-    if (newRoom.roomType === "junior suite") {
-      roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
-    }
-    let bidet
-    if (newRoom.bidet) {
-      bidet = "This room has a bidet!"
-    } else {
-      bidet = ''
-    }
-  roomDetailsPage.innerHTML += `<h2>ROOM DETAILS</h2>
-      <img src="${roomPhoto}" class="room-details-photo">
-      <p class="room-details-${newRoom.number}">ROOM NUMBER: ${newRoom.number} <br> COST PER NIGHT: $${newRoom.costPerNight} <br> ROOM TYPE: ${newRoom.roomType} <br> BED SIZE: ${newRoom.bedSize} <br> NUMBER OF BEDS: ${newRoom.numBeds} <br> ${bidet} </p> <button class="button" id="confirmBooking">CONFIRM BOOKING</button>`
-}
-
 function populateExistingBookings() {
   existingBookingsContainer.innerHTML = ""
   let userID = parseInt(username.value.slice(8, username.value.length))
@@ -197,23 +162,10 @@ function populateExistingBookings() {
   newCustomer.getName(customersData)
   dashboardTitle.innerText = `${newCustomer.name}'s Dashboard`
   overlook.findExistingBookings(newCustomer).forEach(booking => {
-    let roomPhoto
-    if (booking.roomType === "residential suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
-      }
-      if (booking.roomType === "suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
-      }
-      if (booking.roomType === "single room") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
-      }
-      if (booking.roomType === "junior suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
-      }
     existingBookingsContainer.innerHTML +=
     `<section class="room-booking">
       <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
-      <img src="${roomPhoto}" class="room-photo">
+      <img src="${getPhoto(booking.roomType)}" class="room-photo">
       <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
       <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
     </section>`
@@ -224,28 +176,16 @@ function populateExistingBookings() {
 
 function populateAvailableRooms() {
   errorDatePlaceholder.innerText = ""
-  availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${dateSearchForm.value}`
+  let date = dateSearchForm.value.split('-').join('/')
+  availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${date}`
   availableRoomsContainer.innerHTML = ''
-  overlook.availableRoomsByDate(dateSearchForm.value)
+  overlook.availableRoomsByDate(date)
   overlook.availableRooms.forEach(room => {
-    let roomPhoto
-      if (room.roomType === "residential suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
-      }
-      if (room.roomType === "suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
-      }
-      if (room.roomType === "single room") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
-      }
-      if (room.roomType === "junior suite") {
-        roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
-      }
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
       <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
       <button class="button" id="${room.number}">BOOK THIS ROOM</button>
-      <img src="${roomPhoto}" class="room-photo">
+      <img src="${getPhoto(room.roomType)}" class="room-photo">
       <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
     </section>`
   })
@@ -275,32 +215,70 @@ function filterRooms(event) {
   const filteredRoomsByTag = overlook.filterByTags(tags, overlook.availableRooms)
     availableRoomsContainer.innerHTML = ''
     filteredRoomsByTag.forEach(room => {
-      let roomPhoto
-        if (room.roomType === "residential suite") {
-          roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Schgaguler-Hotel_Town-Suite_1.jpg"
-        }
-        if (room.roomType === "suite") {
-          roomPhoto = "https://www.schgaguler.com/app/uploads/2018/07/Family_Suite_1-Schlafzimmer-mit-Wohnbereich.jpg"
-        }
-        if (room.roomType === "single room") {
-          roomPhoto = "https://www.schgaguler.com/app/uploads/2019/06/Loft-Suite_Schgaguler-Hotel_Bed-web-2.jpg"
-        }
-        if (room.roomType === "junior suite") {
-          roomPhoto = "https://www.schgaguler.com/app/uploads/2018/08/Gable_room4_web.jpg"
-        }
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
       <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
       <button class="button" id="${room.number}">BOOK THIS ROOM</button>
-      <img src="${roomPhoto}" class="room-photo">
+      <img src="${getPhoto(room.roomType)}" class="room-photo">
       <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
     </section>`
   })
   }
 }
 
+function populateRoomDetails(event) {
+  const clickedRoom = roomData.filter(room => event.target.id === `${room.number}`)
+  newRoom = new Room(clickedRoom[0].number, clickedRoom[0].roomType, clickedRoom[0].bidet, clickedRoom[0].bedSize, clickedRoom[0].numBeds, clickedRoom[0].costPerNight)
+  roomDetailsPage.innerHTML = ''
+    let bidet
+    if (newRoom.bidet) {
+      bidet = "This room has a bidet!"
+    } else {
+      bidet = ''
+    }
+  roomDetailsPage.innerHTML += `<h2 class="room-details-title">ROOM DETAILS</h2>
+      <img src="${getPhoto(newRoom.roomType)}" class="room-details-photo">
+      <p class="room-details-${newRoom.number}">ROOM NUMBER: ${newRoom.number} <br> COST PER NIGHT: $${newRoom.costPerNight} <br> ROOM TYPE: ${newRoom.roomType} <br> BED SIZE: ${newRoom.bedSize} <br> NUMBER OF BEDS: ${newRoom.numBeds} <br> ${bidet} </p> <button class="button" id="confirmBooking">CONFIRM BOOKING</button>`
+}
 
+function confirmNewBooking(event) {
+  if (event.target.classList.contains('button')) {
+    roomDetailsPage.innerHTML = ''
+    roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
+    BOOKING ADDED TO DASHBOARD`
+    fetchBookingPost()
 
+    // setTimeout(showDashboardPage, 2500)
+  }
+}
+
+function fetchBookingPost() {
+    let date = dateSearchForm.value.split('-').join('/')
+    newBooking = new Booking(newCustomer, date, newRoom)
+  fetch("http://localhost:3001/api/v1/bookings", {
+      method:'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ userID: newBooking.userID,
+         date: date,
+         roomNumber: newBooking.roomNumber})
+        })
+        .then(() => getPromiseData())
+  }
+
+function getPhoto(roomType) {
+  if (roomType === "residential suite") {
+      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-03/Amangiri-Gallery-15.jpg?itok=Wui89NRF"
+    }
+    if (roomType === "suite") {
+      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-01/210119_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri_41.jpg?itok=9Ibun5bC"
+    }
+    if (roomType === "single room") {
+      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-02/210127_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri59.jpg?itok=BZ62PaZv"
+    }
+    if (roomType === "junior suite") {
+      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-01/210119_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri_15.jpg?itok=1aadr4EX"
+    }
+}
 
 function show(element) {
   element.classList.remove('hidden')
