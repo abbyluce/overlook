@@ -43,7 +43,9 @@ window.addEventListener('load', function() {
   hide(changeDateButton)
   hide(bookRoomButton)
   hide(logoutButton)
+
 })
+
 loginButton.addEventListener('click', showDashboardPage)
 bookRoomButton.addEventListener('click', showBookARoomPage)
 dateSearchButton.addEventListener('click', showAvailableRoomsPage)
@@ -68,6 +70,7 @@ function getPromiseData() {
     bookingsData = data[1].bookings
     customersData = data[2].customers
     overlook = new Hotel(bookingsData, roomData, customersData)
+    showDashboardPage()
   })
 }
 
@@ -85,16 +88,16 @@ function showLoginPage() {
   hide(roomDetailsPage)
 }
 
-function showDashboardPage(event) {
-  event.preventDefault()
-  if (username.value === "" || password.value === "") {
-    errorMessage.innerText = `PLEASE COMPLETE THE FORM!`
-  } else if (password.value !== "overlook2021"){
-    errorMessage.innerText = `WRONG PASSWORD! PLEASE TRY AGAIN.`
-  } else
-    //userid is greater than 50
-  {
-    errorMessage.innerText = ""
+function showDashboardPage() {
+  // event.preventDefault()
+  // if (username.value === "" || password.value === "") {
+  //   errorMessage.innerText = `PLEASE COMPLETE THE FORM!`
+  // } else if (password.value !== "overlook2021"){
+  //   errorMessage.innerText = `WRONG PASSWORD! PLEASE TRY AGAIN.`
+  // } else
+  //   //userid is greater than 50
+  // {
+    // errorMessage.innerText = ""
     hide(backToDashboardButton)
     hide(changeDateButton)
     show(bookRoomButton)
@@ -105,7 +108,7 @@ function showDashboardPage(event) {
     show(logoutButton)
     hide(roomDetailsPage)
     populateExistingBookings()
-  }
+  // }
 }
 
 function showBookARoomPage() {
@@ -156,16 +159,17 @@ function showRoomDetailsPage(event) {
 
 function populateExistingBookings() {
   existingBookingsContainer.innerHTML = ""
-  let userID = parseInt(username.value.slice(8, username.value.length))
-  console.log(userID)
-  newCustomer = new Customer(userID)
-  newCustomer.getName(customersData)
-  dashboardTitle.innerText = `${newCustomer.name}'s Dashboard`
+  // let userID = parseInt(username.value.slice(8, username.value.length))
+  // console.log(userID)
+  newCustomer = new Customer(50)
+  console.log(overlook)
+  // newCustomer.getName(customersData)
+  dashboardTitle.innerText = `Eldridge Muller's Dashboard`
   overlook.findExistingBookings(newCustomer).forEach(booking => {
     existingBookingsContainer.innerHTML +=
     `<section class="room-booking">
       <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
-      <img src="${getPhoto(booking.roomType)}" class="room-photo">
+      <img src="${getPhoto(booking.roomType)}" alt="room-photo" class="room-photo">
       <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
       <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
     </section>`
@@ -185,7 +189,7 @@ function populateAvailableRooms() {
     `<section class="room-booking">
       <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
       <button class="button" id="${room.number}">BOOK THIS ROOM</button>
-      <img src="${getPhoto(room.roomType)}" class="room-photo">
+      <img src="${getPhoto(room.roomType)}" alt="room-photo" class="room-photo">
       <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
     </section>`
   })
@@ -219,7 +223,7 @@ function filterRooms(event) {
     `<section class="room-booking">
       <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
       <button class="button" id="${room.number}">BOOK THIS ROOM</button>
-      <img src="${getPhoto(room.roomType)}" class="room-photo">
+      <img src="${getPhoto(room.roomType)}" alt="room-photo" class="room-photo">
       <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
     </section>`
   })
@@ -237,7 +241,7 @@ function populateRoomDetails(event) {
       bidet = ''
     }
   roomDetailsPage.innerHTML += `<h2 class="room-details-title">ROOM DETAILS</h2>
-      <img src="${getPhoto(newRoom.roomType)}" class="room-details-photo">
+      <img src="${getPhoto(newRoom.roomType)} alt="room-photo" class="room-details-photo">
       <p class="room-details-${newRoom.number}">ROOM NUMBER: ${newRoom.number} <br> COST PER NIGHT: $${newRoom.costPerNight} <br> ROOM TYPE: ${newRoom.roomType} <br> BED SIZE: ${newRoom.bedSize} <br> NUMBER OF BEDS: ${newRoom.numBeds} <br> ${bidet} </p> <button class="button" id="confirmBooking">CONFIRM BOOKING</button>`
 }
 
