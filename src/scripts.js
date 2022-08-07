@@ -68,6 +68,7 @@ function getPromiseData() {
     bookingsData = data[1].bookings
     customersData = data[2].customers
     overlook = new Hotel(bookingsData, roomData, customersData)
+    setCurrentDate()
   })
 }
 
@@ -157,7 +158,6 @@ function showRoomDetailsPage(event) {
 function populateExistingBookings() {
   existingBookingsContainer.innerHTML = ""
   let userID = parseInt(username.value.slice(8, username.value.length))
-  console.log(userID)
   newCustomer = new Customer(userID)
   newCustomer.getName(customersData)
   dashboardTitle.innerText = `${newCustomer.name}'s Dashboard`
@@ -180,6 +180,9 @@ function populateAvailableRooms() {
   availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${date}`
   availableRoomsContainer.innerHTML = ''
   overlook.availableRoomsByDate(date)
+  if (overlook.availableRooms.length === 0) {
+    availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO MORE ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
+  }
   overlook.availableRooms.forEach(room => {
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
@@ -247,7 +250,6 @@ function confirmNewBooking(event) {
     roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
     BOOKING ADDED TO DASHBOARD`
     fetchBookingPost()
-
     // setTimeout(showDashboardPage, 2500)
   }
 }
@@ -263,7 +265,7 @@ function fetchBookingPost() {
          roomNumber: newBooking.roomNumber})
         })
         .then(() => getPromiseData())
-  }
+}
 
 function getPhoto(roomType) {
   if (roomType === "residential suite") {
@@ -278,6 +280,10 @@ function getPhoto(roomType) {
     if (roomType === "junior suite") {
       return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-01/210119_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri_15.jpg?itok=1aadr4EX"
     }
+}
+
+function setCurrentDate() {
+  dateSearch.min = new Date().toJSON().slice(0,10)
 }
 
 function show(element) {
