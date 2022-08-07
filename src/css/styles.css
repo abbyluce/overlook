@@ -1,5 +1,5 @@
 body {
-  background-image: url("../images/manuel-moreno-DGa0LQ0yDPc-unsplash.jpg");
+  background-image: url("https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-02/Amangiri_Website_Landscape_5.jpg?itok=1EOp7tuq");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -12,18 +12,16 @@ body {
 
 
 h1 {
-  font-size: 9vh;
+  font-size: 8vh;
   color: white;
-  margin: 3vh 0vw 4vh 1vw;
-  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-             0px 8px 13px rgba(0,0,0,0.1);
+  margin: 3vh 0vw 4vh 2vw;
   text-align: left;
 }
 
 nav {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 h2 {
@@ -51,6 +49,7 @@ h4 {
   padding-top: 3vh;
   padding-bottom: 7vh;
 }
+
 .customer-dashboard-page,
 .book-a-room-page,
 .available-rooms-page,
@@ -107,10 +106,10 @@ h4 {
   flex-direction: column;
 }
 
-.room-booking {
+.room-booking,
+.room-details-page {
   background-color: #dad8d5e3;
   color: black;
-  padding: 1vh;
 }
 
 .existing-bookings-container,
@@ -149,11 +148,15 @@ label {
   width: 60%;
 }
 
-.room-details-info {
+.room-details-title {
+  color: black;
+}
+
+/* .room-details-info {
   display: flex;
   flex-direction: row;
   align-items: center;
-}
+} */
 
 .hidden {
   display: none;
