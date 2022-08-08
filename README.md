@@ -1,3 +1,5 @@
+# Overlook Hotel
+
 ## Introduction
   - For this project, I built a hotel management site using JavaScript, HTML and CSS. Mocha and Chai were utilized as well to test all classes. This project also works with data stored in a local api server. 
   - This project was a great mix of solidifying my understanding of all technologies used, and my love for and past experience in interior design (I spent far too long researching luxury hotel rooms to use for all of my imagery).  
