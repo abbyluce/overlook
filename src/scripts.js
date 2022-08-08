@@ -29,6 +29,7 @@ const customerDashboardPage = document.querySelector('.customer-dashboard-page')
 const dashboardTitle = document.querySelector('.dashboard-title')
 const loginPage = document.querySelector('.login-page')
 const existingBookingsContainer = document.querySelector('.existing-bookings-container')
+const upcomingBookingsContainer = document.querySelector('.upcoming-bookings-container')
 const bookARoomPage = document.querySelector('.book-a-room-page')
 const availableRoomsPage = document.querySelector('.available-rooms-page')
 const availRoomsTitle = document.querySelector('#availRoomsTitle')
@@ -92,9 +93,7 @@ function showDashboardPage(event) {
     errorMessage.innerText = `PLEASE COMPLETE THE FORM!`
   } else if (password.value !== "overlook2021"){
     errorMessage.innerText = `WRONG PASSWORD! PLEASE TRY AGAIN.`
-  } else
-    //userid is greater than 50
-  {
+  } else {
     errorMessage.innerText = ""
     hide(backToDashboardButton)
     hide(changeDateButton)
@@ -157,19 +156,31 @@ function showRoomDetailsPage(event) {
 
 function populateExistingBookings() {
   existingBookingsContainer.innerHTML = ""
+  upcomingBookingsContainer.innerHTML = ""
+  let todaysDate = new Date().toJSON().slice(0,10)
   let userID = parseInt(username.value.slice(8, username.value.length))
   newCustomer = new Customer(userID)
   newCustomer.getName(customersData)
   dashboardTitle.innerText = `${newCustomer.name}'s Dashboard`
   overlook.findExistingBookings(newCustomer).forEach(booking => {
-    existingBookingsContainer.innerHTML +=
-    `<section class="room-booking">
-      <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
-      <img src="${getPhoto(booking.roomType)}" class="room-photo">
-      <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
-      <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
-    </section>`
-    })
+    if (booking.date.split('/') < todaysDate.split('-')) {
+      existingBookingsContainer.innerHTML +=
+      `<section class="room-booking">
+        <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
+        <img src="${getPhoto(booking.roomType)}" class="room-photo">
+        <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
+        <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
+      </section>`
+  } else if (booking.date.split('/') >= todaysDate.split('-')) {
+      upcomingBookingsContainer.innerHTML +=
+      `<section class="room-booking">
+        <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
+        <img src="${getPhoto(booking.roomType)}" class="room-photo">
+        <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
+        <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
+      </section>`
+  }
+})
     totalDollars.innerHTML = ""
     totalDollars.innerHTML = `${overlook.findTotalCost(newCustomer)}`
 }
@@ -181,7 +192,7 @@ function populateAvailableRooms() {
   availableRoomsContainer.innerHTML = ''
   overlook.availableRoomsByDate(date)
   if (overlook.availableRooms.length === 0) {
-    availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO MORE ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
+    availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
   }
   overlook.availableRooms.forEach(room => {
     availableRoomsContainer.innerHTML +=
@@ -218,6 +229,9 @@ function filterRooms(event) {
   const filteredRoomsByTag = overlook.filterByTags(tags, overlook.availableRooms)
     availableRoomsContainer.innerHTML = ''
     filteredRoomsByTag.forEach(room => {
+      if (filteredRoomsByTag.length === 0) {
+        availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
+      }
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
       <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
@@ -246,11 +260,7 @@ function populateRoomDetails(event) {
 
 function confirmNewBooking(event) {
   if (event.target.classList.contains('button')) {
-    roomDetailsPage.innerHTML = ''
-    roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
-    BOOKING ADDED TO DASHBOARD`
     fetchBookingPost()
-    // setTimeout(showDashboardPage, 2500)
   }
 }
 
@@ -264,7 +274,21 @@ function fetchBookingPost() {
          date: date,
          roomNumber: newBooking.roomNumber})
         })
-        .then(() => getPromiseData())
+        .then(response => {
+      if (!response.ok) {
+        throw new Error('There was an error and your booking was not completed, please try again!')
+      } else {
+        roomDetailsPage.innerHTML = ''
+        roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
+        BOOKING ADDED TO DASHBOARD`
+        return response.json()
+      }
+    })
+    .then(() => getPromiseData())
+    .catch(err => {
+      roomDetailsPage.innerHTML = `${err.message}`
+    })
+
 }
 
 function getPhoto(roomType) {
