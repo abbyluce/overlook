@@ -81,7 +81,6 @@ h4 {
 .button {
   margin: 0vh 1vw 0vh 1vw;
   display: inline-block;
-  outline: 0;
   cursor: pointer;
   border: none;
   padding: 0 56px;
