@@ -1,5 +1,5 @@
 body {
-  background-image: url("https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-02/Amangiri_Website_Landscape_5.jpg?itok=1EOp7tuq");
+  background-image: url('../images/background-image.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;

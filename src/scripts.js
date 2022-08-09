@@ -1,4 +1,9 @@
-import './css/styles.css';
+import './css/styles.css'
+import './images/residential-suite.png'
+import './images/suite.png'
+import './images/single-room.png'
+import './images/junior-suite.png'
+import './images/background-image.png'
 import { fetchData } from './apiCalls'
 import Customer from './classes/customer.js'
 import Booking from './classes/booking.js'
@@ -93,6 +98,8 @@ function showDashboardPage(event) {
     errorMessage.innerText = `PLEASE COMPLETE THE FORM!`
   } else if (password.value !== "overlook2021"){
     errorMessage.innerText = `WRONG PASSWORD! PLEASE TRY AGAIN.`
+  } else if (!username.value.includes("customer")) {
+    errorMessage.innerText = `USERNAME DOES NOT EXIST! PLEASE TRY AGAIN.`
   } else {
     errorMessage.innerText = ""
     hide(backToDashboardButton)
@@ -166,7 +173,7 @@ function populateExistingBookings() {
     if (booking.date.split('/') < todaysDate.split('-')) {
       existingBookingsContainer.innerHTML +=
       `<section class="room-booking">
-        <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
+        <h4 class="room-title">BOOKING DATE: <br>${getDisplayedDate(booking.date)} </h4>
         <img src="${getPhoto(booking.roomType)}" class="room-photo">
         <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
         <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
@@ -174,7 +181,7 @@ function populateExistingBookings() {
     } else if (booking.date.split('/') >= todaysDate.split('-')) {
       upcomingBookingsContainer.innerHTML +=
       `<section class="room-booking">
-        <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
+        <h4 class="room-title">BOOKING DATE: <br>${getDisplayedDate(booking.date)} </h4>
         <img src="${getPhoto(booking.roomType)}" class="room-photo">
         <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
         <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
@@ -188,7 +195,7 @@ function populateExistingBookings() {
 function populateAvailableRooms() {
   errorDatePlaceholder.innerText = ""
   let date = dateSearchForm.value.split('-').join('/')
-  availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${date}`
+  availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${getDisplayedDate(date)}`
   availableRoomsContainer.innerHTML = ''
   overlook.availableRoomsByDate(date)
     if (overlook.availableRooms.length === 0) {
@@ -293,17 +300,60 @@ function fetchBookingPost() {
 
 function getPhoto(roomType) {
   if (roomType === "residential suite") {
-      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-03/Amangiri-Gallery-15.jpg?itok=Wui89NRF"
-    }
-    if (roomType === "suite") {
-      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-01/210119_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri_41.jpg?itok=9Ibun5bC"
-    }
-    if (roomType === "single room") {
-      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-02/210127_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri59.jpg?itok=BZ62PaZv"
-    }
-    if (roomType === "junior suite") {
-      return "https://www.aman.com/sites/default/files/styles/full_size_large/public/2021-01/210119_AmanWebsite2021_LandscapeImageFrame_WholePixels_Amangiri_15.jpg?itok=1aadr4EX"
-    }
+      return './images/residential-suite.png'
+  }
+  if (roomType === "suite") {
+      return './images/suite.png'
+  }
+  if (roomType === "single room") {
+      return './images/single-room.png'
+  }
+  if (roomType === "junior suite") {
+      return './images/junior-suite.png'
+  }
+}
+
+function getDisplayedDate(date) {
+  let dateMonth
+  let dateDay = date.slice(8, 10)
+  let dateYear = date.slice(0, 4)
+  if (date.slice(5, 7) === "01") {
+    dateMonth = "JANUARY"
+  }
+  if (date.slice(5, 7) === "02") {
+    dateMonth = "FEBRUARY"
+  }
+  if (date.slice(5, 7) === "03") {
+    dateMonth = "MARCH"
+  }
+  if (date.slice(5, 7) === "04") {
+    dateMonth = "APRIL"
+  }
+  if (date.slice(5, 7) === "05") {
+    dateMonth = "MAY"
+  }
+  if (date.slice(5, 7) === "06") {
+    dateMonth = "JUNE"
+  }
+  if (date.slice(5, 7) === "07") {
+    dateMonth = "JULY"
+  }
+  if (date.slice(5, 7) === "08") {
+    dateMonth = "AUGUST"
+  }
+  if (date.slice(5, 7) === "09") {
+    dateMonth = "SEPTEMBER"
+  }
+  if (date.slice(5, 7) === "10") {
+    dateMonth = "OCTOBER"
+  }
+  if (date.slice(5, 7) === "11") {
+    dateMonth = "NOVEMBER"
+  }
+  if (date.slice(5, 7) === "12") {
+    dateMonth = "DECEMBER"
+  }
+  return `${dateMonth} ${dateDay}, ${dateYear}`
 }
 
 function setCurrentDate() {
