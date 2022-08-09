@@ -171,7 +171,7 @@ function populateExistingBookings() {
         <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
         <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
       </section>`
-  } else if (booking.date.split('/') >= todaysDate.split('-')) {
+    } else if (booking.date.split('/') >= todaysDate.split('-')) {
       upcomingBookingsContainer.innerHTML +=
       `<section class="room-booking">
         <h4 class="room-title">BOOKING DATE: ${booking.date} </h4>
@@ -179,8 +179,8 @@ function populateExistingBookings() {
         <p class="room-${booking.roomNumber}-details">ROOM NUMBER: ${booking.roomNumber}
         <br> COST: $${booking.cost}<br>ROOM TYPE: ${booking.roomType}</p>
       </section>`
-  }
-})
+    }
+  })
     totalDollars.innerHTML = ""
     totalDollars.innerHTML = `${overlook.findTotalCost(newCustomer)}`
 }
@@ -191,9 +191,9 @@ function populateAvailableRooms() {
   availRoomsTitle.innerText = `AVAILABLE ROOMS ON ${date}`
   availableRoomsContainer.innerHTML = ''
   overlook.availableRoomsByDate(date)
-  if (overlook.availableRooms.length === 0) {
-    availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
-  }
+    if (overlook.availableRooms.length === 0) {
+      availableRoomsContainer.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
+    }
   overlook.availableRooms.forEach(room => {
     availableRoomsContainer.innerHTML +=
     `<section class="room-booking">
@@ -226,20 +226,20 @@ function editTags(event) {
 
 function filterRooms(event) {
   if(event.target.classList.contains('checkbox')) {
-  const filteredRoomsByTag = overlook.filterByTags(tags, overlook.availableRooms)
-    availableRoomsContainer.innerHTML = ''
-    filteredRoomsByTag.forEach(room => {
+    const filteredRoomsByTag = overlook.filterByTags(tags, overlook.availableRooms)
+      availableRoomsContainer.innerHTML = ''
       if (filteredRoomsByTag.length === 0) {
-        availRoomsTitle.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS AVAILABLE ON YOUR REQUESTED DATE, PLEASE SEARCH A DIFFERENT DATE.`
+        availableRoomsContainer.innerText = `WE APOLOGIZE, THERE ARE NO ROOMS OF YOUR REQUESTED ROOM TYPE AVAILABLE, PLEASE ADJUST YOUR SEARCH.`
       }
-    availableRoomsContainer.innerHTML +=
-    `<section class="room-booking">
-      <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
-      <button class="button" id="${room.number}">BOOK THIS ROOM</button>
-      <img src="${getPhoto(room.roomType)}" class="room-photo">
-      <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
-    </section>`
-  })
+      filteredRoomsByTag.forEach(room => {
+      availableRoomsContainer.innerHTML +=
+      `<section class="room-booking">
+        <h4 class="room-title">ROOM NUMBER: ${room.number} <br> COST PER NIGHT: $${room.costPerNight}</h4>
+        <button class="button" id="${room.number}">BOOK THIS ROOM</button>
+        <img src="${getPhoto(room.roomType)}" class="room-photo">
+        <p class="room-${room.number}-details">ROOM TYPE: ${room.roomType} <br> BED SIZE: ${room.bedSize} <br> NUMBER OF BEDS: ${room.numBeds}</p>
+      </section>`
+    })
   }
 }
 
@@ -274,20 +274,20 @@ function fetchBookingPost() {
          date: date,
          roomNumber: newBooking.roomNumber})
         })
-        .then(response => {
-      if (!response.ok) {
-        throw new Error('There was an error and your booking was not completed, please try again!')
-      } else {
-        roomDetailsPage.innerHTML = ''
-        roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
-        BOOKING ADDED TO DASHBOARD`
-        return response.json()
-      }
-    })
-    .then(() => getPromiseData())
-    .catch(err => {
-      roomDetailsPage.innerHTML = `${err.message}`
-    })
+      .then(response => {
+          if (!response.ok) {
+            throw new Error('There was an error and your booking was not completed, please try again!')
+          } else {
+            roomDetailsPage.innerHTML = ''
+            roomDetailsPage.innerHTML += `THANKS FOR BOOKING WITH US! <br>
+            BOOKING ADDED TO DASHBOARD`
+            return response.json()
+          }
+        })
+      .then(() => getPromiseData())
+      .catch(err => {
+        roomDetailsPage.innerHTML = `${err.message}`
+      })
 
 }
 

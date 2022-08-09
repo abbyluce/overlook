@@ -10,7 +10,6 @@ body {
   color: white;
 }
 
-
 h1 {
   font-size: 8vh;
   color: white;
@@ -151,12 +150,6 @@ label {
 .room-details-title {
   color: black;
 }
-
-/* .room-details-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-} */
 
 .hidden {
   display: none;

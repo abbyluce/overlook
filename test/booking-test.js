@@ -41,5 +41,4 @@ describe('Booking', () => {
     expect(bookingA.roomNumber).to.equal(1)
     expect(bookingB.roomNumber).to.equal(2)
   });
-
 })
