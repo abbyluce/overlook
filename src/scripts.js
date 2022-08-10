@@ -162,7 +162,6 @@ function populateExistingBookings() {
   // let userID = parseInt(username.value.slice(8, username.value.length))
   // console.log(userID)
   newCustomer = new Customer(50)
-  console.log(overlook)
   // newCustomer.getName(customersData)
   dashboardTitle.innerText = `Eldridge Muller's Dashboard`
   overlook.findExistingBookings(newCustomer).forEach(booking => {
