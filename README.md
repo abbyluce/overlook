@@ -18,6 +18,10 @@ npm start
 cd ..
 open overlook/dist/index.html
 ```
+Note: use the following credentials to login to the application:
+USERNAME: customer20
+PASSWORD: overlook2021
+
 
 ## Application in Action
 ![2022-08-08 15 50 53](https://user-images.githubusercontent.com/100726140/183520847-1035fd10-d406-4cb8-af9d-16b26cb6f650.gif)
